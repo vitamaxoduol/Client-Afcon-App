@@ -14,7 +14,7 @@ const Comments = ({ handleClose3 }) => {
 
   useEffect(() => {
     if (refreshComments) {
-      axios.get(`${API_URL}https://afcona-app.onrender.com/api/comments`)
+      axios.get(`${API_URL}api/comments`)
         .then(response => {
           setComments(response.data);
         })
@@ -25,17 +25,26 @@ const Comments = ({ handleClose3 }) => {
     }
   }, [API_URL, refreshComments]);
 
-  const handleDelete = (e, ID) => {
-    e.preventDefault();
-    axios.delete(`${API_URL}/api/comments/${ID}`)
-      .then(response => {
-        alert("Deleted successfully!");
-        setRefreshComments(true);
-      })
-      .catch(error => {
-        alert("Delete failed!!");
-      })
-  };
+ // Updated handleDelete function
+const handleDelete = (e, comment) => {
+  e.preventDefault();
+  
+  // Check if the logged-in user is the owner of the comment
+  if (LOGGED_IN_USER_ID !== comment.user_id) {
+    alert("You can only delete your own comments!");
+    return;
+  }
+
+  axios.delete(`${API_URL}api/comments/${comment.id}`)
+    .then(response => {
+      alert("Deleted successfully!");
+      setRefreshComments(true);
+    })
+    .catch(error => {
+      alert("Delete failed!!");
+    });
+};
+
 
   const submitComment = (e) => {
     e.preventDefault();
@@ -50,7 +59,7 @@ const Comments = ({ handleClose3 }) => {
       user_id: LOGGED_IN_USER_ID,
     };
 
-    axios.post(`${API_URL}/api/comments`, SUBMITTED_COMMENT)
+    axios.post(`${API_URL}api/comments`, SUBMITTED_COMMENT)
       .then(response => {
         alert("Posted successfully!");
         setTypedComment("");
@@ -76,8 +85,13 @@ const Comments = ({ handleClose3 }) => {
           comments?
           <div className="w-[98%] mx-auto">
             {
-              comments.map((eachComment,index)=>{
-                return <CommentCard key={index} eachComment={eachComment} handleDelete={handleDelete}/>
+             comments.map((eachComment, index) => {
+              return <CommentCard 
+                       key={index} 
+                       eachComment={eachComment} 
+                       handleDelete={(e) => handleDelete(e, eachComment)} // Pass the whole comment to the handleDelete function
+                     />
+          
               })
             }
           {/* <CommentCard /> */}

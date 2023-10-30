@@ -10,6 +10,7 @@ export default function Paypal({ data, origin }) {
   const [formLoading, setFormLoading] = useState(false);
   const [mpesaPayError, setPayError] = useState(false);
   const vl = useContext(CONT);
+  // vl.setPayCardState(true)
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
@@ -24,7 +25,9 @@ export default function Paypal({ data, origin }) {
       top: 0,
       behavior: "smooth",
     });
-  }, []);
+    vl.setPayCardState(true);
+  }, [vl]);
+
   const toAfterPay = useNavigate();
   function payPalSubmit(e) {
     e.preventDefault();
@@ -43,6 +46,7 @@ export default function Paypal({ data, origin }) {
       toAfterPay("after_pay");
     }
   }
+
   function closePayCard() {
     vl.setPayCardState(false);
   }

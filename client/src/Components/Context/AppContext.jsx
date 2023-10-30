@@ -1,25 +1,36 @@
 import React, { createContext, useContext, useState } from "react";
 
 const CONT = createContext();
-export const useMyCustomHook=()=>useContext(CONT)
+export const useMyCustomHook = () => useContext(CONT);
 
-function AppContext({ children }) {
-  const [userIsLoged, onsetUserIsLoged] = useState(false);
-  // const [payCardState, setPayCardState] = useState(false);
+function AppContext(props) {
+  const [userIsLoged, setUserIsLoged] = useState(false);
+  const [payCardState, setPayCardState] = useState(false);
 
+  // State to store logged-in user ID
+  const [LOGGED_IN_USER_ID, setLoggedInUserID] = useState(null); 
 
-
-  const API_URL="http://localhost:5000"
-  const LOGGED_IN_NAME="Alan Walker"
+  const API_URL = "https://afcona-app.onrender.com";
   const classes = {
     functions: "function",
   };
 
-  const setUserIsLoged=(newValue)=>{
-    onsetUserIsLoged(newValue)
-  }
-
-  return <CONT.Provider value={{classes,API_URL,LOGGED_IN_NAME,userIsLoged,setUserIsLoged}}>{children}</CONT.Provider>;
+  return (
+    <CONT.Provider 
+      value={{
+        classes,
+        API_URL,
+        LOGGED_IN_USER_ID, // provide this to child components
+        setLoggedInUserID, // method to set the user ID
+        userIsLoged,
+        setUserIsLoged,
+        payCardState,
+        setPayCardState
+      }}
+    >
+      {props.children}
+    </CONT.Provider>
+  );
 }
 
 export { AppContext, CONT };
