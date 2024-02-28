@@ -12,7 +12,7 @@ const SignIn = () => {
     e.preventDefault();
 
     // Define the API endpoint. Update this URL to point to your backend endpoint.
-    const apiEndpoint = "https://afcon-app-1.onrender.com/auth/login";
+    const apiEndpoint = "http://127.0.0.1:5000/auth/login";
 
     try {
       const response = await fetch(apiEndpoint, {
