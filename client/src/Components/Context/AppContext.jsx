@@ -10,7 +10,7 @@ function AppContext(props) {
   // State to store logged-in user ID
   const [LOGGED_IN_USER_ID, setLoggedInUserID] = useState(null); 
 
-  const API_URL = "https://afcon-app-1.onrender.com";
+  const API_URL = "http://127.0.0.1:5000";
   const classes = {
     functions: "function",
   };
