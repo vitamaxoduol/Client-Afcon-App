@@ -9,7 +9,7 @@ const Profile = () => {
     const fetchUserProfile = async () => {
       try {
         // Change the URL to your backend endpoint
-        const response = await fetch("https://localhost:5000/auth/profile", {
+        const response = await fetch("https://afcon-app-1.onrender.com/auth/profile", {
           method: 'GET',
           headers: {
             // If you have any authentication headers or tokens, add them here
